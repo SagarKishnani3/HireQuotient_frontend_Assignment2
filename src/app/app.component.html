@@ -1,0 +1,80 @@
+<div>
+  <div class="one">
+    <fa-icon [icon]="icon2"></fa-icon>
+    <input type="text"[(ngModel)]="term" class="texting" placeholder="Search here">
+  </div>
+  
+    <form [formGroup]="userDetail">
+      <div class="container" *ngIf="!tablecheck">
+        <div class="two">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+        </div>
+        <div>
+          <fa-icon class="top-right-button" [icon]="icon"(click)="delete2()"></fa-icon>
+        </div>
+        <table role="table">
+          <thead role="rowgroup">
+            <tr role="row">
+              <th  role="columnheader">
+                ID
+              </th>
+              <th  role="columnheader">
+                NAME
+              </th>
+              <th  role="columnheader">
+                EMAIL
+              </th>
+              <th  role="columnheader">
+                ROLE
+              </th>
+              <th  role="columnheader">
+                ACTION
+              </th>
+              <th role="columnheader">
+                <input type="checkbox" formControlName="box2"name="box2"[(ngModel)]="selectAll" (change)="onCheckboxChange2()">
+              </th>
+            </tr>
+          </thead>
+          <tbody role="rowgroup">
+            <tr role="row" *ngFor="let post of POSTS | filter:term | paginate:{
+              itemsPerPage: tableSize,
+              currentPage:pageNumber,
+              totalItems:count
+            }; let i=index">
+              <td role="cell">{{post.id}}</td>
+              <td role="cell">{{post.name}}</td>
+              <td role="cell"> {{post.email}}</td>
+              <td role="cell">{{post.role}}</td>
+              <td role="cell">
+                <div>
+                  <fa-icon class="ic2" [icon]="icon3"></fa-icon>
+                </div>
+                <div>
+                  <fa-icon class="ic" [icon]="icon" (click)="delete(i)"></fa-icon>
+                </div>
+                <!-- <button class="ic"(click)="delete(i)">delete</button>
+                <button class="ic2">edit</button>
+              </td> -->
+              <!-- <td role="cell"><button type="button" (click)="delete(i)">delete</button></td> -->
+              <td role="cell">
+                <input type="checkbox" formControlName="box" name="box"[(ngModel)]="isChecked" (change)="onCheckboxChange()">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div>
+          <pagination-controls previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+      </div>
+      <div *ngIf="tablecheck" class="container2">
+        <p class="centered-text">Data is Empty</p>
+      </div>
+    </form>
+</div>
